@@ -1,0 +1,32 @@
+name: Workspace checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build:wallet
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: rillvane-app
+      - uses: actions/checkout@v4
+        with:
+          repository: Rillvane/rillvane-protocol
+          path: rillvane-protocol
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm run test:integration
+        working-directory: rillvane-app

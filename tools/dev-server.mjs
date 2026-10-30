@@ -1,0 +1,13 @@
+import {existsSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+const root=fileURLToPath(new URL('..',import.meta.url));process.chdir(root);
+if(existsSync('.env'))process.loadEnvFile('.env');
+const protocol=resolve(process.env.PROTOCOL_ROOT||'../rillvane-protocol');
+const entry=resolve(protocol,'backend/server.mjs');
+if(!existsSync(entry))throw new Error('Clone rillvane-protocol beside rillvane-app, or set PROTOCOL_ROOT.');
+const {createApplication}=await import(pathToFileURL(entry).href);
+const port=Number(process.env.PORT||8787),origin=process.env.PUBLIC_ORIGIN||'http://localhost:'+port;
+const app=createApplication({origin,siteMode:'app',staticRoot:resolve(root,'dist'),dbPath:process.env.DATABASE_PATH||':memory:',keys:null,workerEnabled:false});
+app.server.listen(port,'127.0.0.1',()=>console.log('Development workspace: '+origin+'/'));
+for(const signal of ['SIGINT','SIGTERM'])process.once(signal,async()=>{await app.close();process.exit(0)});

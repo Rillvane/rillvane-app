@@ -11,7 +11,10 @@
     "check": "node tools/check.mjs",
     "test": "node --test tools/chart-ui.test.mjs",
     "test:ui": "node --test tools/chart-ui.test.mjs",
-    "build:wallet": "node tools/build-wallet.mjs"
+    "build:wallet": "node tools/build-wallet.mjs",
+    "dev": "node tools/dev-server.mjs",
+    "test:integration": "node --test tools/app-http.test.mjs",
+    "test:browser": "node tools/integration-browser-check.mjs"
   },
   "devDependencies": {
     "@solana/web3.js": "1.98.4",
