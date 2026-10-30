@@ -1,0 +1,25 @@
+{
+  "name": "@rillvane/app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "check": "node tools/check.mjs",
+    "test": "node --test tools/chart-ui.test.mjs",
+    "test:ui": "node --test tools/chart-ui.test.mjs",
+    "build:wallet": "node tools/build-wallet.mjs"
+  },
+  "devDependencies": {
+    "@solana/web3.js": "1.98.4",
+    "esbuild": "0.28.2"
+  },
+  "overrides": {
+    "@solana/web3.js": {
+      "jayson": "5.0.0"
+    }
+  }
+}
